@@ -28,7 +28,7 @@
   </div>
 {/block}
 
-{block name='header_nav'}
+{* {block name='header_nav'}
   <nav class="header-nav">
     <div class="container">
       <div class="row">
@@ -37,7 +37,7 @@
             {hook h='displayNav1'}
           </div>
           <div class="col-md-7 right-nav">
-              {hook h='displayNav2'}
+            {hook h='displayNav2'}
           </div>
         </div>
         <div class="hidden-md-up text-sm-center mobile">
@@ -52,12 +52,12 @@
       </div>
     </div>
   </nav>
-{/block}
+{/block} *}
 
-{block name='header_top'}
+{* {block name='header_top'}
   <div class="header-top">
     <div class="container">
-       <div class="row">
+      <div class="row">
         <div class="col-md-2 hidden-sm-down" id="_desktop_logo">
           {if $shop.logo_details}
             {if $page.page_name == 'index'}
@@ -72,6 +72,9 @@
         <div class="header-top-right col-md-10 col-sm-12 position-static">
           {hook h='displayTop'}
         </div>
+        <div class="col-md-7 right-nav d-flex ">
+          {hook h='displayNav2'}
+        </div>
       </div>
       <div id="mobile_top_menu_wrapper" class="row hidden-md-up" style="display:none;">
         <div class="js-top-menu mobile" id="_mobile_top_menu"></div>
@@ -82,6 +85,30 @@
         </div>
       </div>
     </div>
+  </div>
+  {hook h='displayNavFullWidth'}
+{/block} *}
+
+{block name='header_top'}
+  <div id="title_bar">
+    <div class="logo" >
+      {if $shop.logo_details}
+        {if $page.page_name == 'index'}
+          <h1>
+            {renderLogo}
+          </h1>
+        {else}
+          {renderLogo}
+        {/if}
+      {/if}
+    </div>
+    <h2>SALUT LES BOLOSSES</h2>
+    <div class="connect_cart">
+    {hook h='displayNav2'}
+    </div>
+  </div>
+  <div id="nav_bar">
+    {hook h='displayTop'}
   </div>
   {hook h='displayNavFullWidth'}
 {/block}

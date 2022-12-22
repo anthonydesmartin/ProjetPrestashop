@@ -1,4 +1,5 @@
-{**
+<?php
+/**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
  *
@@ -21,21 +22,14 @@
  * @author    PrestaShop SA and Contributors <contact@prestashop.com>
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
- *}
-{if $cart.products_count > 0}
-  <a rel="nofollow" aria-label="{l s='Shopping cart link containing %nbProducts% product(s)' sprintf=['%nbProducts%' => $cart.products_count] d='Shop.Theme.Checkout'}" href="{$cart_url}">
-{/if}
-  <div id="_desktop_cart" class="btn_wishcraft">
-    <div class="blockcart cart-preview {if $cart.products_count > 0}active{else}inactive{/if}" data-refresh-url="{$refresh_url}">
-      <div class="header">
-        
-          <i class="material-icons shopping-cart" aria-hidden="true">shopping_cart</i>
-          <span class="hidden-sm-down">{l s='Cart' d='Shop.Theme.Checkout'}</span>
-          <span class="cart-products-count">({$cart.products_count})</span>
-        
-      </div>
-    </div>
-  </div>
-{if $cart.products_count > 0}
-  </a>
-{/if}
+ */
+
+header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+
+header("Cache-Control: no-store, no-cache, must-revalidate");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+
+header("Location: ../");
+exit;

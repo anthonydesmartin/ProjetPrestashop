@@ -27,7 +27,6 @@
 {block name='content'}
 
   <section id="main">
-
     {block name='page_header_container'}
       {block name='page_title' hide}
         <header class="page-header">

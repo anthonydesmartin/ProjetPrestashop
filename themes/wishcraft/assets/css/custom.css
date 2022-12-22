@@ -1,0 +1,63 @@
+@font-face {
+    font-family: Bebas;
+    src: url('../fonts/BebasNeue-Regular.ttf');
+  }
+
+#title_bar {
+    display:flex;
+    justify-content: space-around; 
+    align-items: center;
+    background: #626262; 
+    font-family: Bebas;
+}
+
+div.logo {
+    height: 80px;
+    width: 80px;
+}
+
+#title_bar a {
+    color: #626262;
+}
+
+
+div.connect_cart {
+    display: flex;
+    color: #626262;
+}
+
+h2 {
+    font-size: 60px;
+    color: #F6C000; 
+}
+
+
+#top-menu a {
+    font-size: 30px;
+    color: white;
+}
+
+#nav_bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around; 
+    padding: 10px;
+    background-color: rgba(98, 98, 98, 0.75); 
+    font-family: Bebas;
+}
+
+.btn_wishcraft {
+    background-color: #F6C000;
+    padding: 8px;
+    border-radius: 10px;
+    margin: 10px;
+    font-size: 20px;
+}
+
+body {
+    background: no-repeat fixed url("../img/wallpapers.png")
+}
+
+#wrapper, #header {
+    background: none;
+}

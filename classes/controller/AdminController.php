@@ -65,7 +65,7 @@ class AdminControllerCore extends Controller
     public $layout = 'layout.tpl';
 
     /** @var bool */
-    public $bootstrap = false;
+    public $bootstrap = true;
 
     /** @var string|array */
     protected $meta_title = [];
