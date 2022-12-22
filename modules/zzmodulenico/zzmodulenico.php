@@ -10,7 +10,7 @@ class Zzmodulenico extends Module implements WidgetInterface{
         $this-> name = 'zzmodulenico';// nom du module
         $this->tab; //catégorie du module, si rien va dans Autres
         $this->version = '1.0.0';//version
-        $this->author = 'GK';//auteur
+        $this->author = 'Jean-michel Dévelopeur';//auteur
         $this->need_instance = 1;//est-ce que le module a besoin d'une instance de la classe
         $this->bootstrap = true;//bootstrap activé ou non
         parent::__construct();
