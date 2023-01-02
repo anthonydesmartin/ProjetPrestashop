@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <module>
     <name>zzmodulenico</name>
-    <displayName><![CDATA[My first module]]></displayName>
+    <displayName><![CDATA[Module de parrainage]]></displayName>
     <version><![CDATA[1.0.0]]></version>
-    <description><![CDATA[My first module description]]></description>
+    <description><![CDATA[Module permettant de generer un lien d'inscription unique, qui donne au parain une reduction de panier si il est utilisé. ]]></description>
     <author><![CDATA[GK]]></author>
     <tab><![CDATA[]]></tab>
 	<confirmUninstall><![CDATA[Vous désinstallez mon super module. Êtes-vous sûr?]]></confirmUninstall>

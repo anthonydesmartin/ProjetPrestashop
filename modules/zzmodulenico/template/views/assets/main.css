@@ -1,3 +1,41 @@
-h1.hc{
-    color: red;
+.btn_wishcraft_module {
+    background-color: #F6C000;
+    padding: 8px;
+    border-radius: 10px;
+    margin: 10px;
+    font-size: 20px;
+    font-family: Bebas;
+    color: #626262;
+    border: none;
+}
+
+#content {
+    background: rgba(98, 98, 98, 0.75);
+    border-radius: 30px;
+    color: white;
+}
+
+#content>form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h3, th {
+    color: #F6C000;
+}
+
+p {
+    color: white;
+}
+
+.montants{
+    color: #F6C000;
+    font-size: 30px;
+    font-family: Bebas;
+}
+
+.hidden_input{
+    visibility: hidden;
+    position: absolute;
 }

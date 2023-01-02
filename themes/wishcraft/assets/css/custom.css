@@ -59,6 +59,9 @@ h2 {
     border-radius: 10px;
     margin: 10px;
     font-size: 20px;
+    font-family: Bebas;
+    color: #626262;
+    border: none;
 }
 
 body {

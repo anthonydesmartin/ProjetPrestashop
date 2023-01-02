@@ -15,8 +15,8 @@ class Zzmodulenico extends Module implements WidgetInterface{
         $this->bootstrap = true;//bootstrap activé ou non
         parent::__construct();
 
-        $this->displayName = $this->trans('My first module', [],'Module.Zzmodulenico.Admin');//affichage du non et on traduit
-        $this->description = $this->trans('My first module description', [],'Module.Zzmodulenico.Admin');//on récupère la descritpion et on la passe dans trans pour la traduction
+        $this->displayName = $this->trans('Module de parrainage', [],'Module.Zzmodulenico.Admin');//affichage du non et on traduit
+        $this->description = $this->trans('Module permettant de generer un lien d\'inscription unique, qui donne au parain une reduction de panier si il est utilisé.', [],'Module.Zzmodulenico.Admin');//on récupère la descritpion et on la passe dans trans pour la traduction
         $this->confirmUninstall = 'Vous désinstallez mon super module. Êtes-vous sûr?';//on peut ne pas traduire
 
         $this->templateFile = 'module:zzmodulenico/template/views/front.tpl';//chemin pour aller chercher le template via le chemin
@@ -26,24 +26,14 @@ class Zzmodulenico extends Module implements WidgetInterface{
         return parent::install()
         && $this->registerHook('displayHome')
         && $this->registerHook('header')//permet de rajouter des fichiers js ou css
-        && Configuration::updateValue('ZZMODULENICO_TITLE', 'Titre')//check si dans la table configuration un  ZZMODULENICO_TITLE existe. Si il existe il le met à jour sinon il le crée
-        && Configuration::updateValue('ZZMODULENICO_SUBTITLE', 'Sous-titre')
-        && Configuration::updateValue('ZZMODULENICO_DESCRIPTION', 'Description');
+        && Configuration::updateValue('ZZMODULENICO_REDUC', 'Réduction')
+        && Configuration::updateValue('ZZMODULENICO_MAXREDUC', 'Montant maximum éligible à la réduction');
     }
 
     public function uninstall(){
         return parent::uninstall()
         && $this->unregisterHook('displayHome');
     }
-
-    //Dans notre cas, pas nécessaire car on est sur un module d'affichage
-    // public function hookDisplayHome($params){//lancé quand le hook sera déclenché
-    //     $this->smarty->assign([
-    //         'title' => Configuration::get('ZZMODULENICO_TITLE'),//ce qui sera envoyé dans le template
-    //         'description' => '<h2>Une description</h2>'
-    //     ]);
-    //     return $this->fetch($this->templateFile);
-    // }
 
     public function hookHeader(){
         $this->context->controller->registerStylesheet(
@@ -56,26 +46,10 @@ class Zzmodulenico extends Module implements WidgetInterface{
         );
     }
 
-    public function getWidgetVariables($hookName, array $configuration){//Récupère les variables sur la BDD pour les utiliser dans renderWidget
-        // $sql = "select * from  "._DB_PREFIX_."product";
-        // $products = Db::getInstance()->executeS($sql);//retourne un tableau du résultat de la reqûete
-        // foreach ($products as $product){
-        //     $product = new Product($product['id_product']);//on les crée en objet par rapport à ce que la requête nous a donné
-        //     $product->description_short[1] = 'vide'; //le 1 est l'id de la langue
-        //     $product->save();
-        // }
-        // $product = new Product();
-        // $product->reference = 'RefNew';
-        // $product->id_category_default = 2;
-        // $product->description_short[1] = 'Nouveau produit';
-        // $product->price = 15;
-        // $product->active = 1;
-        // $product->save();
+    public function getWidgetVariables($hookName, array $configuration){
         return [
-            'title' => Configuration::get('ZZMODULENICO_TITLE'),
-            'subtitle' => Configuration::get('ZZMODULENICO_SUBTITLE'),
-            'description' => Configuration::get('ZZMODULENICO_DESCRIPTION'),
-            //'products' => $products
+            'reduc' => Configuration::get('ZZMODULENICO_REDUC'),
+            'maxReduc' => Configuration::get('ZZMODULENICO_MAXREDUC'),
             'link' => Context::getContext()->link->getModuleLink('zzmodulenico','pagezz')
         ];
     }
@@ -95,25 +69,20 @@ class Zzmodulenico extends Module implements WidgetInterface{
         $output = '';
         $errors = [];
         if(Tools::isSubmit('submitZZ')){//Check si le formulaire a été submit
-            $title = Tools::getValue('zztitle');//récupère la valeur du champ du formulaire, de manière générale la fonction va chercher la valeur par rapport à la clé en paramètre dans le $_GET ou $_POST
-            $subtitle = Tools::getValue('zzsubtitle');
-            $description = Tools::getValue('zzdescription');
-            if($title === ''){
-                $errors[] = 'Le champs title est obligatoire';
+            $reduc = Tools::getValue('zzreduc');//récupère la valeur du champ du formulaire, de manière générale la fonction va chercher la valeur par rapport à la clé en paramètre dans le $_GET ou $_POST
+            $maxReduc = Tools::getValue('zzmaxreduc');
+            if($reduc === ''){
+                $errors[] = 'Le champs réduction est obligatoire';
             }
-            if($subtitle === ''){
-                $errors[] = 'Le champs subtitle est obligatoire';
-            }
-            if($description === ''){
-                $errors[] = 'Le champs description est obligatoire';
+            if($maxReduc === ''){
+                $errors[] = 'Le champs montant maximum éligible à la réduction est obligatoire';
             }
             if(count($errors) > 0){
                 $output = $this->displayError(implode('<br>',$errors));//Affiche un message d'erreur
             }
             else{
-                Configuration::updateValue('ZZMODULENICO_TITLE',$title);//l'envoie en BDD
-                Configuration::updateValue('ZZMODULENICO_SUBTITLE',$subtitle);
-                Configuration::updateValue('ZZMODULENICO_DESCRIPTION',$description,true);
+                Configuration::updateValue('ZZMODULENICO_REDUC',$reduc);//l'envoie en BDD
+                Configuration::updateValue('ZZMODULENICO_MAXREDUC',$maxReduc);
                 $output = $this->displayConfirmation('Le formulaire est enregistré');//Affiche un message de confirmation
             }
         }
@@ -131,26 +100,16 @@ class Zzmodulenico extends Module implements WidgetInterface{
                 'input' => [
                     [
                         'type' => 'text',
-                        'name' => 'zztitle',
-                        'label' => $this->trans('Title', [], 'Modules.Zzmodulenico.Admin'),
+                        'name' => 'zzreduc',
+                        'label' => $this->trans('Reduction', [], 'Modules.Zzmodulenico.Admin'),
                         'required' => 1
                     ],
                     [
                         'type' => 'text',
-                        'name' =>'zzsubtitle',
-                        'label' => $this->trans('Sub Title', [], 'Modules.Zzmodulenico.Admin'),
+                        'name' => 'zzmaxreduc',
+                        'label' => $this->trans('Montant maximum éligible à la réduction', [], 'Modules.Zzmodulenico.Admin'),
                         'required' => 1
                     ],
-                    [
-                        'type' => 'textarea',
-                        'label' => $this->trans('Text block', [], 'Modules.Customtext.Admin'),
-                        'name' => 'zzdescription',
-                        'cols' => 40,
-                        'rows' => 10,
-                        'class' => 'rte',
-                        'autoload_rte' => true,
-                        'required' => 1
-                    ]
                 ],
                 'submit' => [
                     'title' => $this->trans('Save',[],'Admin.Actions'),
@@ -180,9 +139,8 @@ class Zzmodulenico extends Module implements WidgetInterface{
 
     private function getConfigFieldsValue(){//Va chercher les valeurs de config sur la BDD
         return [
-            'zztitle' => Tools::getValue('zztitle', Configuration::get('ZZMODULENICO_TITLE')),
-            'zzsubtitle' => Tools::getValue('zzsubtitle',Configuration ::get('ZZMODULENICO_SUBTITLE')),
-            'zzdescription' => Tools::getValue('zzdescription',Configuration ::get('ZZMODULENICO_DESCRIPTION'))
+            'zzreduc' => Tools::getValue('zzreduc', Configuration::get('ZZMODULENICO_REDUC')),
+            'zzmaxreduc' => Tools::getValue('zzmaxreduc', Configuration::get('ZZMODULENICO_MAXREDUC'))
         ];
     }
 }
